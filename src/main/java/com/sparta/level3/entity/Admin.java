@@ -18,7 +18,7 @@ public class Admin {
     @Column(nullable = false) //notNull 설정
     private String email;
 
-    @Size(min = 8, max = 15, message = "비밀번호는 최소 8자 이상, 최대 15자 이하로 입력하세요.")
+//    @Size(min = 8, max = 15, message = "비밀번호는 최소 8자 이상, 최대 15자 이하로 입력하세요.") 인코딩해서 들어오기 때문에 60자이상임
     @Column(nullable = false)
     private String password;
 
@@ -28,15 +28,16 @@ public class Admin {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    //생성자 AdminRequestDto에서 받아온 데이터로 생성
-    public Admin(AdminRequestDto adminRequestDto) {
-        this.email = adminRequestDto.getEmail();
-        this.password = adminRequestDto.getPassword();
-        this.department = adminRequestDto.getDepartment();
-        this.role = adminRequestDto.getRole();
-    }
-
     //JPA사용을 위한 기본 생성자
     public Admin() {
+    }
+
+
+
+    public Admin(String email, String encodedPassword, Department department, Role role) {
+        this.email = email;
+        this.password = encodedPassword;
+        this.department = department;
+        this.role = role;
     }
 }

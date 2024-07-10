@@ -1,14 +1,13 @@
 package com.sparta.level3.controller;
 
 import com.sparta.level3.dto.AdminRequestDto;
+import com.sparta.level3.dto.LoginRequestDto;
+import com.sparta.level3.dto.LoginResponseDto;
 import com.sparta.level3.service.AdminService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -32,4 +31,16 @@ public class AdminController {
         }
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDto> login(@Validated @RequestBody LoginRequestDto requestDto) {
+
+        try {
+            LoginResponseDto responseDto = adminService.login(requestDto); //로그인 시도 성공시
+            return ResponseEntity.ok()
+                    .header("Authorization", "Bearer " + responseDto.getToken())
+                    .body(responseDto);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null); //로그인 실패시
+        }
+    }
 }
