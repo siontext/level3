@@ -1,4 +1,4 @@
-package com.sparta.level3.dto;
+package com.sparta.level3.dto.login;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

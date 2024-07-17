@@ -1,4 +1,4 @@
-package com.sparta.level3.dto;
+package com.sparta.level3.dto.teacher;
 
 
 import lombok.Getter;

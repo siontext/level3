@@ -1,4 +1,4 @@
-package com.sparta.level3.dto;
+package com.sparta.level3.dto.lecture;
 
 import com.sparta.level3.enums.Category;
 import lombok.Getter;

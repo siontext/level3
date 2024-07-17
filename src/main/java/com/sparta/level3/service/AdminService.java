@@ -1,9 +1,9 @@
 package com.sparta.level3.service;
 
-import com.sparta.level3.dto.AdminRequestDto;
-import com.sparta.level3.dto.AdminResponseDto;
-import com.sparta.level3.dto.LoginRequestDto;
-import com.sparta.level3.dto.LoginResponseDto;
+import com.sparta.level3.dto.admin.AdminRequestDto;
+import com.sparta.level3.dto.admin.AdminResponseDto;
+import com.sparta.level3.dto.login.LoginRequestDto;
+import com.sparta.level3.dto.login.LoginResponseDto;
 import com.sparta.level3.entity.Admin;
 import com.sparta.level3.entity.Department;
 import com.sparta.level3.enums.Role;

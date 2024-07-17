@@ -1,11 +1,9 @@
 package com.sparta.level3.entity;
 
-import com.sparta.level3.dto.LectureRequestDto;
-import com.sparta.level3.dto.LectureUpdateRequestDto;
+import com.sparta.level3.dto.lecture.LectureUpdateRequestDto;
 import com.sparta.level3.enums.Category;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 

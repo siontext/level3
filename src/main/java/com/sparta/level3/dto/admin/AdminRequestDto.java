@@ -1,4 +1,4 @@
-package com.sparta.level3.dto;
+package com.sparta.level3.dto.admin;
 
 import com.sparta.level3.entity.Department;
 import com.sparta.level3.enums.Role;

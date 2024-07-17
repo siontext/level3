@@ -1,10 +1,9 @@
-package com.sparta.level3.dto;
+package com.sparta.level3.dto.teacher;
 
 import lombok.Getter;
 
 @Getter
-public class TeacherResponseDto {
-
+public class TeacherDetailResponseDto {
     private Long id;
     private String name;
     private int experience; // 경력
@@ -12,8 +11,7 @@ public class TeacherResponseDto {
     private String phone;
     private String introduction;
 
-
-    public TeacherResponseDto(Long id, String name, int experience, String company, String phone, String introduction) {
+    public TeacherDetailResponseDto(Long id, String name, int experience, String company, String phone, String introduction) {
         this.id = id;
         this.name = name;
         this.experience = experience;

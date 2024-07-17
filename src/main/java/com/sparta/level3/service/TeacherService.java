@@ -1,7 +1,8 @@
 package com.sparta.level3.service;
 
-import com.sparta.level3.dto.TeacherRequestDto;
-import com.sparta.level3.dto.TeacherResponseDto;
+import com.sparta.level3.dto.teacher.TeacherDetailResponseDto;
+import com.sparta.level3.dto.teacher.TeacherRequestDto;
+import com.sparta.level3.dto.teacher.TeacherResponseDto;
 import com.sparta.level3.entity.Teacher;
 import com.sparta.level3.repository.TeacherRepository;
 import org.springframework.stereotype.Service;
@@ -57,6 +58,25 @@ public class TeacherService {
         teacher.update(requestDto.getExperience(), requestDto.getCompany(), requestDto.getPhone(), requestDto.getIntroduction());
 
         return new TeacherResponseDto(
+                teacher.getId(),
+                teacher.getName(),
+                teacher.getExperience(),
+                teacher.getCompany(),
+                teacher.getPhone(),
+                teacher.getIntroduction()
+        );
+    }
+
+    /**
+     * 선택한 강사 조회 서비스 메서드
+     * @param id 선택한 강사의 ID
+     * @return 선택한 강사 정보가 담긴 DTO
+     */
+    public TeacherDetailResponseDto getTeacherDetail(Long id) {
+        Teacher teacher = teacherRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("해당 강사를 찾을 수 없습니다."));
+
+        return new TeacherDetailResponseDto(
                 teacher.getId(),
                 teacher.getName(),
                 teacher.getExperience(),

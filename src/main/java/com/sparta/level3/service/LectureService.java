@@ -1,17 +1,17 @@
 package com.sparta.level3.service;
 
-import com.sparta.level3.dto.LectureRequestDto;
-import com.sparta.level3.dto.LectureResponseDto;
-import com.sparta.level3.dto.LectureUpdateRequestDto;
-import com.sparta.level3.dto.LectureUpdateResponseDto;
+import com.sparta.level3.dto.lecture.*;
 import com.sparta.level3.entity.Lecture;
 import com.sparta.level3.entity.Teacher;
+import com.sparta.level3.enums.Category;
 import com.sparta.level3.repository.LectureRepository;
 import com.sparta.level3.repository.TeacherRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LectureService {
@@ -85,5 +85,72 @@ public class LectureService {
                 lecture.getRegistrationDate()
         );
     }
+
+    /**
+     * 선택한 강의 조회 서비스 메서드
+     * @param id 선택한 강의의 ID
+     * @return 선택한 강의 정보가 담긴 DTO
+     */
+    public LectureDetailResponseDto getLectureDetail(Long id) {
+        Lecture lecture = lectureRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("해당 강의를 찾을 수 없습니다."));
+
+        return new LectureDetailResponseDto(
+                lecture.getId(),
+                lecture.getTitle(),
+                lecture.getPrice(),
+                lecture.getDescription(),
+                lecture.getCategory(),
+                lecture.getTeacher().getName(),
+                lecture.getRegistrationDate()
+        );
+    }
+
+
+    /**
+     * 선택한 강사가 촬영한 강의 목록 조회 서비스 메서드
+     * @param teacherId 선택한 강사의 ID
+     * @return 선택한 강사가 촬영한 강의 목록
+     */
+    public List<LectureSummaryResponseDto> getLecturesByTeacher(Long teacherId) {
+        Teacher teacher = teacherRepository.findById(teacherId)
+                .orElseThrow(() -> new RuntimeException("해당 강사를 찾을 수 없습니다."));
+
+        List<Lecture> lectures = lectureRepository.findAllByTeacherOrderByRegistrationDateDesc(teacher);
+
+        return lectures.stream()
+                .map(lecture -> new LectureSummaryResponseDto(//스트림 배열로 선언하기
+                        lecture.getId(),
+                        lecture.getTitle(),
+                        lecture.getPrice(),
+                        lecture.getDescription(),
+                        lecture.getCategory(),
+                        lecture.getRegistrationDate()
+                ))
+                .collect(Collectors.toList()); //리스트로 선언
+    }
+
+    /**
+     * 카테고리별 강의 목록 조회 서비스 메서드
+     * @param category 선택한 카테고리
+     * @return 선택한 카테고리에 포함된 강의 목록
+     */
+    @Transactional(readOnly = true)
+    public List<LectureCategoryResponseDto> getLecturesByCategory(Category category) {
+        List<Lecture> lectures = lectureRepository.findAllByCategoryOrderByRegistrationDateDesc(category);
+
+        return lectures.stream() //스트림 배열로 생성
+                .map(lecture -> new LectureCategoryResponseDto(
+                        lecture.getId(),
+                        lecture.getTitle(),
+                        lecture.getPrice(),
+                        lecture.getDescription(),
+                        lecture.getCategory(),
+                        lecture.getTeacher().getName(),
+                        lecture.getRegistrationDate()
+                ))
+                .collect(Collectors.toList());//리스트로 반환
+    }
 }
+
 

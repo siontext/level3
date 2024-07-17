@@ -1,4 +1,4 @@
-package com.sparta.level3.dto;
+package com.sparta.level3.dto.admin;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

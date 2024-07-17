@@ -1,4 +1,4 @@
-package com.sparta.level3.dto;
+package com.sparta.level3.dto.lecture;
 
 import com.sparta.level3.enums.Category;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.time.LocalDate;
 
 @Getter
-public class LectureUpdateResponseDto {
+public class LectureDetailResponseDto {
     private Long id;
     private String title;
     private int price;
@@ -15,7 +15,7 @@ public class LectureUpdateResponseDto {
     private String teacherName;
     private LocalDate registrationDate;
 
-    public LectureUpdateResponseDto(Long id, String title, int price, String description, Category category, String teacherName, LocalDate registrationDate) {
+    public LectureDetailResponseDto(Long id, String title, int price, String description, Category category, String teacherName, LocalDate registrationDate) {
         this.id = id;
         this.title = title;
         this.price = price;

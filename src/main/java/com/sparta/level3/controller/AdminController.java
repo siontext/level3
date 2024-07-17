@@ -1,8 +1,8 @@
 package com.sparta.level3.controller;
 
-import com.sparta.level3.dto.AdminRequestDto;
-import com.sparta.level3.dto.LoginRequestDto;
-import com.sparta.level3.dto.LoginResponseDto;
+import com.sparta.level3.dto.admin.AdminRequestDto;
+import com.sparta.level3.dto.login.LoginRequestDto;
+import com.sparta.level3.dto.login.LoginResponseDto;
 import com.sparta.level3.service.AdminService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
