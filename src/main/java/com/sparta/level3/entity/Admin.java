@@ -1,9 +1,8 @@
 package com.sparta.level3.entity;
 
-import com.sparta.level3.dto.AdminRequestDto;
+import com.sparta.level3.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
 @Entity

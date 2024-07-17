@@ -10,7 +10,7 @@ import lombok.Getter;
 //강사 엔티티
 @Entity
 @Getter
-public class Instructor {
+public class Teacher {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,12 +28,20 @@ public class Instructor {
 
 
     //JPA 사용을 위한 기본생성자
-    public Instructor() {
+    public Teacher() {
     }
 
     //생성자
-    public Instructor(String name, int experience, String company, String phone, String introduction) {
+    public Teacher(String name, int experience, String company, String phone, String introduction) {
         this.name = name;
+        this.experience = experience;
+        this.company = company;
+        this.phone = phone;
+        this.introduction = introduction;
+    }
+
+    // 업데이트 메서드
+    public void update(int experience, String company, String phone, String introduction) {
         this.experience = experience;
         this.company = company;
         this.phone = phone;

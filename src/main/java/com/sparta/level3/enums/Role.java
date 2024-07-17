@@ -1,4 +1,4 @@
-package com.sparta.level3.entity;
+package com.sparta.level3.enums;
 
 
 public enum Role {

@@ -5,7 +5,7 @@ import lombok.Getter;
 
 //강사 등록 요청 Dto
 @Getter
-public class InstructorRequestDto {
+public class TeacherRequestDto {
 
     private String name;
 

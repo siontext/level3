@@ -6,11 +6,10 @@ import com.sparta.level3.dto.LoginRequestDto;
 import com.sparta.level3.dto.LoginResponseDto;
 import com.sparta.level3.entity.Admin;
 import com.sparta.level3.entity.Department;
-import com.sparta.level3.entity.Role;
+import com.sparta.level3.enums.Role;
 import com.sparta.level3.jwt.JwtUtil;
 import com.sparta.level3.repository.AdminRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.regex.Matcher;
@@ -30,7 +29,6 @@ public class AdminService {
         this.jwtUtil = jwtUtil;
     }
 
-
     // 관리자 회원가입
     public AdminResponseDto joinAdmin(AdminRequestDto requestDto) {
 
@@ -45,7 +43,7 @@ public class AdminService {
         }
 
         // 비밀번호 형식 검증
-        if (!isValidPassword(requestDto.getPassword())) {//isValidPassword 메서드를 추가하여 비밀번호 형식을 검증
+        if (!isValidPassword(requestDto.getPassword())) { // isValidPassword 메서드를 추가하여 비밀번호 형식을 검증
             throw new RuntimeException("비밀번호는 최소 8자 이상, 최대 15자 이하이며 알파벳 대소문자, 숫자, 특수문자로 구성되어야 합니다.");
         }
 
@@ -67,24 +65,22 @@ public class AdminService {
         return new AdminResponseDto("관리자가 성공적으로 등록되었습니다.", savedAdmin.getId());
     }
 
-
-
-    //관리자 로그인
+    // 관리자 로그인
     public LoginResponseDto login(LoginRequestDto requestDto) {
 
-        //이메일 있는지 확인
+        // 이메일 있는지 확인
         Admin admin = adminRepository.findByEmail(requestDto.getEmail())
                 .orElseThrow(() -> new RuntimeException("잘못된 이메일 입니다."));
 
-        //비밀번호 확인 (들어온 비번과 로그인 하려는 이메일의 비번)
+        // 비밀번호 확인 (들어온 비번과 로그인 하려는 이메일의 비번)
         if (!passwordEncoder.matches(requestDto.getPassword(), admin.getPassword())) {
             throw new RuntimeException("잘못된 비밀번호 입니다.");
         }
 
-        //토큰 생성하기
-        String token = jwtUtil.createToken(admin.getEmail());
+        // 토큰 생성하기
+        String token = jwtUtil.createToken(admin.getEmail(), admin.getRole().name());
 
-        //LoginResponseDto 반환
+        // LoginResponseDto 반환
         return new LoginResponseDto(
                 "로그인에 성공하였습니다.",
                 admin.getId(),
@@ -94,11 +90,6 @@ public class AdminService {
                 token
         );
     }
-
-
-
-
-
 
     // 비밀번호 형식 검증 메서드
     private boolean isValidPassword(String password) {

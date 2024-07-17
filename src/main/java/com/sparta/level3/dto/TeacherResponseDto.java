@@ -3,7 +3,7 @@ package com.sparta.level3.dto;
 import lombok.Getter;
 
 @Getter
-public class InstructorResponseDto {
+public class TeacherResponseDto {
 
     private Long id;
     private String name;
@@ -13,7 +13,7 @@ public class InstructorResponseDto {
     private String introduction;
 
 
-    public InstructorResponseDto(Long id, String name, int experience, String company, String phone, String introduction) {
+    public TeacherResponseDto(Long id, String name, int experience, String company, String phone, String introduction) {
         this.id = id;
         this.name = name;
         this.experience = experience;

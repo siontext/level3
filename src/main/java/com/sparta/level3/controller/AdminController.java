@@ -15,33 +15,40 @@ public class AdminController {
 
     private final AdminService adminService;
 
-    //생성자 주입
+    //생성자 주입을 통한 의존성 주입
     public AdminController(AdminService adminService) {
         this.adminService = adminService;
     }
 
-
-    // 관리자 회원가입 엔드포인트
+    /**
+     * 관리자 회원가입 엔드포인트
+     * @param requestDto 관리자 회원가입 요청 DTO
+     * @return 회원가입 성공 메시지 또는 에러 메시지와 함께 ResponseEntity 객체
+     */
     @PostMapping("/join")
     public ResponseEntity<String> joinAdmin(@Validated @RequestBody AdminRequestDto requestDto) {
         try {
             adminService.joinAdmin(requestDto);
             return new ResponseEntity<>("관리자 가입 성공", HttpStatus.CREATED);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); //서비스단에서 작성했던 RuntimeException메시지들을 클라이언트에게 반환
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // 서비스단에서 발생한 RuntimeException 메시지를 클라이언트에게 반환
         }
     }
 
-    // 관리자 로그인 엔드포인트
+    /**
+     * 관리자 로그인 엔드포인트
+     * @param requestDto 관리자 로그인 요청 DTO
+     * @return 로그인 성공 시 JWT 토큰을 포함한 ResponseEntity 객체 또는 에러 메시지
+     */
     @PostMapping("/login")
     public ResponseEntity<?> login(@Validated @RequestBody LoginRequestDto requestDto) {
         try {
             LoginResponseDto responseDto = adminService.login(requestDto);
             return ResponseEntity.ok()
-                    .header("Authorization", "Bearer " + responseDto.getToken())
-                    .body(responseDto);//반환타입 responseDto
+                    .header("Authorization", "Bearer " + responseDto.getToken()) // 응답 헤더에 JWT 토큰 추가
+                    .body(responseDto); // 로그인 응답 DTO를 반환
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);//e.getMessage() 반환타입 String -> 반환타입이 고정되어있지 않아서 제네릭 사용
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // 서비스단에서 발생한 RuntimeException 메시지를 클라이언트에게 반환
         }
     }
 }

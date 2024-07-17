@@ -10,18 +10,13 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
 
-//요청을 가로채서 JWT를 검증하는 필터
+// 요청을 가로채서 JWT를 검증하는 필터
 @RequiredArgsConstructor
 @Component
-public class JwtAuthenticationFilter extends HttpFilter  { //HttpFilter를 사용하는 경우 특정 컨텍스트에서만 사용
-
-    private static final Logger logger = Logger.getLogger(JwtAuthenticationFilter.class.getName());//로그
-
+public class JwtAuthenticationFilter extends HttpFilter {
 
     private final JwtUtil jwtUtil;
-
 
     // 인증이 필요 없는 URL 패턴 설정하기
     private static final List<String> EXCLUDE_URLS = List.of(
@@ -29,23 +24,17 @@ public class JwtAuthenticationFilter extends HttpFilter  { //HttpFilter를 사�
             "/api/admin/login"
     );
 
-
     @Override
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
-
         String requestURI = request.getRequestURI();
-        logger.info("Request URI: " + requestURI);// 로그
-
 
         // 인증이 필요 없는 URL은 필터를 통과시킴
         if (EXCLUDE_URLS.contains(requestURI)) {
-            logger.info("Excluded URL, passing through: " + requestURI);//로그
             chain.doFilter(request, response);
             return;
         }
-
 
         // 요청 헤더에서 Authorization 헤더 값을 가져옴
         final String authHeader = request.getHeader("Authorization");
@@ -62,13 +51,14 @@ public class JwtAuthenticationFilter extends HttpFilter  { //HttpFilter를 사�
         if (email != null && jwtUtil.validateToken(jwt, email)) {
             // 요청에 이메일 속성을 추가
             request.setAttribute("email", email);
+
+            // 역할 검증 (JWT 토큰에 역할 정보가 포함되어 있어야 함)
+            String role = jwtUtil.extractRole(jwt); // JWT 토큰에서 역할을 추출하는 메서드를 추가해야 함
+            request.setAttribute("role", role); // 역할 정보를 추가
+            chain.doFilter(request, response); // 모든 인증된 사용자는 요청을 계속 처리
         } else {
             // 인증되지 않은 경우 401 상태 코드를 설정
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
         }
-
-        // 다음 필터 체인을 호출하여 요청을 처리
-        chain.doFilter(request, response);
     }
 }

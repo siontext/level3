@@ -1,7 +1,7 @@
 package com.sparta.level3.dto;
 
 import com.sparta.level3.entity.Department;
-import com.sparta.level3.entity.Role;
+import com.sparta.level3.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
